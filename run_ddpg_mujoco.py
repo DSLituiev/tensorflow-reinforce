@@ -87,11 +87,11 @@ MAX_EPISODES = 10000
 MAX_STEPS    = 1000
 
 episode_history = deque(maxlen=100)
-for i_episode in xrange(MAX_EPISODES):
+for i_episode in range(MAX_EPISODES):
 
   # initialize
   state = env.reset()
-  for t in xrange(MAX_STEPS):
+  for t in range(MAX_STEPS):
     # env.render()
     action = pg_ddpg.sampleAction(state[np.newaxis,:])
     next_state, reward, done, _ = env.step(action)
@@ -105,7 +105,7 @@ for i_episode in xrange(MAX_EPISODES):
     for i_eval in range(100):
       total_rewards = 0
       state = env.reset()
-      for t in xrange(MAX_STEPS):
+      for t in range(MAX_STEPS):
         # env.render()
         action = pg_ddpg.sampleAction(state[np.newaxis,:], exploration=False)
         next_state, reward, done, _ = env.step(action)

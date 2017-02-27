@@ -1,7 +1,7 @@
 import random
 import numpy as np
 import tensorflow as tf
-from replay_buffer import ReplayBuffer
+from .replay_buffer import ReplayBuffer
 
 class NeuralQLearner(object):
 
@@ -56,8 +56,8 @@ class NeuralQLearner(object):
 
     # create and initialize variables
     self.create_variables()
-    var_lists = tf.get_collection(tf.GraphKeys.VARIABLES)
-    self.session.run(tf.initialize_variables(var_lists))
+    var_lists = tf.all_variables()
+    self.session.run(tf.variables_initializer(var_lists))
 
     # make sure all variables are initialized
     self.session.run(tf.assert_variables_initialized())

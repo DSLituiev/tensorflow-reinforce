@@ -13,12 +13,12 @@ sess = tf.Session()
 optimizer = tf.train.RMSPropOptimizer(learning_rate=0.0001, decay=0.9)
 writer = tf.train.SummaryWriter("/tmp/{}-experiment-1".format(env_name))
 
-state_dim   = env.observation_space.shape[0]
+STATE_DIM   = env.observation_space.shape[0]
 num_actions = env.action_space.n
 
 def policy_network(states):
   # define policy neural network
-  W1 = tf.get_variable("W1", [state_dim, 20],
+  W1 = tf.get_variable("W1", [STATE_DIM, 20],
                        initializer=tf.random_normal_initializer())
   b1 = tf.get_variable("b1", [20],
                        initializer=tf.constant_initializer(0))
@@ -33,7 +33,7 @@ def policy_network(states):
 pg_reinforce = PolicyGradientREINFORCE(sess,
                                        optimizer,
                                        policy_network,
-                                       state_dim,
+                                       STATE_DIM,
                                        num_actions,
                                        summary_writer=writer)
 
@@ -41,13 +41,13 @@ MAX_EPISODES = 10000
 MAX_STEPS    = 200
 
 episode_history = deque(maxlen=100)
-for i_episode in xrange(MAX_EPISODES):
+for i_episode in range(MAX_EPISODES):
 
   # initialize
   state = env.reset()
   total_rewards = 0
 
-  for t in xrange(MAX_STEPS):
+  for t in range(MAX_STEPS):
     env.render()
     action = pg_reinforce.sampleAction(state[np.newaxis,:])
     next_state, reward, done, _ = env.step(action)

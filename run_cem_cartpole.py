@@ -34,11 +34,11 @@ theta_mean = np.zeros(env.observation_space.shape[0] + 1)
 theta_std = np.ones_like(theta_mean) * std
 
 episode_history = deque(maxlen=100)
-for i_episode in xrange(MAX_EPISODES):
+for i_episode in range(MAX_EPISODES):
   # maximize function theta_rollout through cross-entropy method
   theta_sample = np.tile(theta_mean, (batch_size, 1)) + np.tile(theta_std, (batch_size, 1)) * np.random.randn(batch_size, theta_mean.size)
   reward_sample = np.array([theta_rollout(env, th, MAX_STEPS)[0] for th in theta_sample])
-  top_idx = np.argsort(-reward_sample)[:np.round(batch_size * top_per)]
+  top_idx = np.argsort(-reward_sample)[:int(np.round(batch_size * top_per))]
   top_theta = theta_sample[top_idx]
   theta_mean = top_theta.mean(axis = 0)
   theta_std = top_theta.std(axis = 0)

@@ -41,13 +41,13 @@ MAX_EPISODES = 10000
 MAX_STEPS    = 200
 
 episode_history = deque(maxlen=100)
-for i_episode in xrange(MAX_EPISODES):
+for i_episode in range(MAX_EPISODES):
 
   # initialize
   state = env.reset()
   total_rewards = 0
 
-  for t in xrange(MAX_STEPS):
+  for t in range(MAX_STEPS):
     env.render()
     action = q_learner.eGreedyAction(state[np.newaxis,:])
     next_state, reward, done, _ = env.step(action)
